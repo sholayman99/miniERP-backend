@@ -1,5 +1,19 @@
-import 'dotenv/config';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import { config } from 'dotenv';
 import { z } from 'zod';
+
+const envCandidates = [
+  path.resolve(__dirname, '../../.env'),
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), 'backend/.env'),
+].filter((candidate, index, list) => list.indexOf(candidate) === index);
+
+const envFile = envCandidates.find((candidate) => existsSync(candidate));
+
+if (envFile && process.env.NODE_ENV !== 'test') {
+  config({ path: envFile });
+}
 
 const envSchema = z.object({
   NODE_ENV: z

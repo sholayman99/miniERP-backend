@@ -26,7 +26,7 @@ describe('env config', () => {
       throw new Error(`process.exit:${code}`);
     }) as never);
 
-    const { env } = await import('./env');
+    const { env } = await import('./env.js');
 
     expect(exitSpy).not.toHaveBeenCalled();
     expect(env.ADMIN_URL).toBe('http://localhost:3000');
